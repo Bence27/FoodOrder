@@ -1,13 +1,13 @@
-import { Fragment } from "react";
 import Header from "./components/Header/Header.jsx";
 import Meals from "./components/Meals/Meals.jsx";
+import CartContextProvider from "./context/shopping-cart-context.jsx";
 
 function App() {
   return (
-    <Fragment>
-      <Header cartItemsCount={0}></Header>
-      <Meals></Meals>
-    </Fragment>
+    <CartContextProvider>
+      <Header />
+      <Meals />
+    </CartContextProvider>
   );
 }
 
