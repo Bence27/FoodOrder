@@ -21,7 +21,7 @@ const CartModal = forwardRef(function Modal({ title, actions }, ref) {
         {actions}
       </form>
     </dialog>,
-    document.getElementById("modal") // A modal tartalmát egy külön DOM elembe rendereljük
+    document.getElementById("modal")
   );
 });
 

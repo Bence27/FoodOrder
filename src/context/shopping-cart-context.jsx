@@ -4,27 +4,25 @@ export const CartContext = createContext({
   items: [],
   addItemToCart: () => {},
   updateItemQuantity: () => {},
+  clearCart: () => {},
 });
 
 function shoppingCartReducer(state, action) {
   if (action.type === "ADD_ITEM") {
     const updatedItems = [...state.items];
 
-    // Megkeressük, hogy a termék már szerepel-e a kosárban
     const existingCartItemIndex = updatedItems.findIndex(
       (cartItem) => cartItem.id === action.payload.id
     );
     const existingCartItem = updatedItems[existingCartItemIndex];
 
     if (existingCartItem) {
-      // Ha már szerepel, növeljük a mennyiséget
       const updatedItem = {
         ...existingCartItem,
         quantity: existingCartItem.quantity + 1,
       };
       updatedItems[existingCartItemIndex] = updatedItem;
     } else {
-      // Ha nem szerepel, új elemként hozzáadjuk
       updatedItems.push({
         id: action.payload.id,
         name: action.payload.name,
@@ -62,6 +60,9 @@ function shoppingCartReducer(state, action) {
       items: updatedItems,
     };
   }
+  if (action.type === "CLEAR_CART") {
+    return { ...state, items: [] };
+  }
 
   return state;
 }
@@ -74,12 +75,10 @@ export default function CartContextProvider({ children }) {
     }
   );
 
-  // Függvény a termék hozzáadásához a kosárhoz
   function handleAddItemToCart(product) {
     shoppingCartDispatch({ type: "ADD_ITEM", payload: product });
   }
 
-  // Függvény a termék mennyiségének frissítéséhez
   function handleUpdateCartItemQuantity(productId, amount) {
     shoppingCartDispatch({
       type: "UPDATE_ITEM",
@@ -87,10 +86,15 @@ export default function CartContextProvider({ children }) {
     });
   }
 
+  const clearCart = () => {
+    shoppingCartDispatch({ type: "CLEAR_CART" });
+  };
+
   const ctxValue = {
     items: shoppingCartState.items,
     addItemToCart: handleAddItemToCart,
     updateItemQuantity: handleUpdateCartItemQuantity,
+    clearCart,
   };
 
   return (
