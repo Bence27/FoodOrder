@@ -2,12 +2,27 @@ import { useContext, useRef } from "react";
 import { CartContext } from "../../context/shopping-cart-context.jsx";
 import headerImg from "../../assets/logo.jpg";
 import CartModal from "../CartModal/CartModal.jsx";
+import CheckoutModal from "../CheckoutModal/CheckoutModal.jsx";
 export default function Header() {
   const { items } = useContext(CartContext);
-  const cartModalRef = useRef(); // A CartModal referenciája
+  const cartModalRef = useRef();
+  const checkoutModalRef = useRef();
+
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   const openCartHandler = () => {
-    cartModalRef.current.open(); // Modal megnyitása
+    cartModalRef.current.open();
+  };
+
+  const openCheckoutHandler = () => {
+    checkoutModalRef.current.open(); // CheckoutModal megnyitása
+  };
+
+  const closeCheckoutHandler = () => {
+    checkoutModalRef.current.close(); // CheckoutModal bezárása
   };
 
   return (
@@ -25,9 +40,16 @@ export default function Header() {
         actions={
           <div className="modal-actions">
             <button className="text-button">Close</button>
-            <button className="button">Go to checkout</button>
+            <button className="button" onClick={openCheckoutHandler}>
+              Go to checkout
+            </button>
           </div>
         }
+      />
+      <CheckoutModal
+        ref={checkoutModalRef}
+        onClose={closeCheckoutHandler}
+        totalPrice={totalPrice}
       />
     </div>
   );

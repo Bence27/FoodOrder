@@ -30,6 +30,7 @@ export default [
         clearInterval: "readonly",
         Intl: "readonly",
         fetch: "readonly",
+        FormData: "readonly",
       },
     },
     plugins: {
