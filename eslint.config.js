@@ -28,6 +28,8 @@ export default [
         document: "readonly",
         setInterval: "readonly",
         clearInterval: "readonly",
+        Intl: "readonly",
+        fetch: "readonly",
       },
     },
     plugins: {
