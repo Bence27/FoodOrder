@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function Meals() {
   const [meals, setMeals] = useState([]);
+
   useEffect(() => {
     async function loadMeals() {
       try {
@@ -19,13 +20,7 @@ export default function Meals() {
   return (
     <div id="meals">
       {meals.map((meal) => (
-        <MealCard
-          key={meal.id}
-          image={meal.image}
-          description={meal.description}
-          price={meal.price}
-          name={meal.name}
-        />
+        <MealCard key={meal.id} meal={meal} />
       ))}
     </div>
   );
